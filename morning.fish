@@ -16,7 +16,7 @@ function morning
      
     set outPath "./stdout.txt"
     set outputDir "test-outputs"
-
+    set timelimit 3
     rm -f "./$outPath"
     rm -rf "./$outputDir"
     mkdir $outputDir
@@ -24,8 +24,20 @@ function morning
 
     echo ""
     echo "compiled 🛠️  "
+
     for el in (find $PWD/test-cases/*/Inputs/ -maxdepth 1 | grep txt | sort) 
-        ./a.out < $el > $outPath
+        timeout $timelimit ./a.out < $el > $outPath
+
+        if test $status -eq 124
+            printf "time limit exceeded: %ss\n" $timelimit
+            return 1
+        end
+
+        if test $status -ne 0
+            echo "runtime error"
+            return 1
+        end
+
         set filename (echo $el | rev | cut -d "/" -f 1 | rev)
         set testid (echo $filename | cut -d "-" -f 1)
         
