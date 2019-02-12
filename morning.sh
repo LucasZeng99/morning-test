@@ -17,7 +17,7 @@ g++ ./soln/*.cpp -o "./a.out" --std=c++17 || {
 }
 
 echo ""
-echo "compiled 🛠️"
+echo "compiled 🛠️  "
 
 outPath="./stdout.txt"
 outputDir="test-outputs"
@@ -38,7 +38,7 @@ for el in $(find $PWD/test-cases/*/Inputs/ -maxdepth 1 | grep txt | sort); do
     if [[ $(echo $expectedContents) == $(echo $outputContents) ]]; then
         printf "."
     else
-        echo "💥"
+        echo "💥 "
         echo $outputContents > "./$outputDir/$testid-yours.txt"
         echo $expectedContents > "./$outputDir/$testid-expected.txt"
         echo $(cat $el) > "./$outputDir/$testid-input.txt"
@@ -59,7 +59,7 @@ for el in $(find $PWD/test-cases/*/Inputs/ -maxdepth 1 | grep txt | sort); do
    fi
 done
 echo ""
-printf "${GREEN}all tests passed.${NC} 🚀"
+printf "${GREEN}all tests passed.${NC} 🚀 \n"
 rm -rf "./$outputDir" 
 rm -f "./$outPath"
 rm -f "./a.out"

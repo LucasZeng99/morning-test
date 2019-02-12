@@ -10,7 +10,7 @@ function morning
     g++ ./soln/*.cpp -o "./a.out" --std=c++17
     
     if not test -e "./a.out"
-        echo "compile error💔"
+        echo "compile error💔 "
         return 1
     end
      
@@ -23,7 +23,7 @@ function morning
     touch $outPath
 
     echo ""
-    echo "compiled 🛠️"
+    echo "compiled 🛠️  "
     for el in (find $PWD/test-cases/*/Inputs/ -maxdepth 1 | grep txt | sort) 
         ./a.out < $el > $outPath
         set filename (echo $el | rev | cut -d "/" -f 1 | rev)
