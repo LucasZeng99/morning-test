@@ -1,6 +1,6 @@
-function morningtest
+function morning
     if not test -e "$PWD/test-cases"
-        echo "not in a morning problem dir."
+        echo "not in a morning problem directory❓"
         return 1
     end
 
@@ -10,7 +10,7 @@ function morningtest
     g++ ./soln/*.cpp -o "./a.out" --std=c++17
     
     if not test -e "./a.out"
-        echo "compile error."
+        echo "compile error💔"
         return 1
     end
      
@@ -22,7 +22,8 @@ function morningtest
     mkdir $outputDir
     touch $outPath
 
-    echo "successfully compiled."
+    echo ""
+    echo "compiled 🛠️"
     for el in (find $PWD/test-cases/*/Inputs/ -maxdepth 1 | grep txt | sort) 
         ./a.out < $el > $outPath
         set filename (echo $el | rev | cut -d "/" -f 1 | rev)
@@ -34,25 +35,33 @@ function morningtest
         if [ (echo $expectedContents) = (echo $outputContents) ]
             printf "."
         else
-            echo $testid "wrong."
+            echo "💥"
             echo $outputContents > "./$outputDir/$testid-yours.txt"
             echo $expectedContents > "./$outputDir/$testid-expected.txt"
             echo (cat $el) > "./$outputDir/$testid-input.txt"
             rm -f "./$outPath"
             rm -f "./a.out"
             
-            echo "###########"
-            echo "input: "
+
+            printf "\ninput: \n"
             echo (cat $el)
-            echo "expected: "
+
+            printf "\nexpected: \n"
+            
+            set_color green
             echo $expectedContents
-            echo "yours: "
+
+            set_color normal
+            printf "\nyours: \n"
+            set_color red
             echo $outputContents
             return 1
         end
     end
     echo ""
-    echo "no errors."
+    set_color green
+    echo -e "all tests passed. 🚀"
+    set_color normal
     rm -rf "./$outputDir" 
     rm -f "./$outPath"
     rm -f "./a.out"

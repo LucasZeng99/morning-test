@@ -1,5 +1,9 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
 if [ ! -d ./test-cases ]; then
     echo "not in a morning problem directory."
     exit
@@ -11,7 +15,9 @@ g++ ./soln/*.cpp -o "./a.out" --std=c++17 || {
     echo "compile error."
     exit
 }
-echo "successfully compiled."
+
+echo ""
+echo "compiled 🛠️"
 
 outPath="./stdout.txt"
 outputDir="test-outputs"
@@ -32,26 +38,28 @@ for el in $(find $PWD/test-cases/*/Inputs/ -maxdepth 1 | grep txt | sort); do
     if [[ $(echo $expectedContents) == $(echo $outputContents) ]]; then
         printf "."
     else
-        echo $testid "wrong."
+        echo "💥"
         echo $outputContents > "./$outputDir/$testid-yours.txt"
         echo $expectedContents > "./$outputDir/$testid-expected.txt"
         echo $(cat $el) > "./$outputDir/$testid-input.txt"
         rm -f "./$outPath"
         rm -f "./a.out"
             
-        echo "###########"
+        echo ""
         echo "input: "
         echo $(cat $el)
+
+        echo ""
         echo "expected: "
-        echo $expectedContents
+        printf "${GREEN}$expectedContents${NC}\n\n"
         echo "yours: "
-        echo $outputContents
+        printf "${RED}$outputContents${NC}\n"
         
         exit
    fi
 done
 echo ""
-echo "no errors."
+printf "${GREEN}all tests passed.${NC} 🚀"
 rm -rf "./$outputDir" 
 rm -f "./$outPath"
 rm -f "./a.out"
